@@ -16,5 +16,5 @@ func _on_get_hit(hitbox : EnemyHitbox):
 		return
 
 
-	if owner.has_method('take_damage'):
-		owner.take_damage(hitbox.damage)
+	if owner.has_method('get_hit'):
+		owner.get_hit(hitbox.damage)

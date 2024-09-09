@@ -8,6 +8,7 @@ class_name Enemy
 
 @onready var nav_agent : NavigationAgent2D = $NavigationAgent2D
 @onready var nav_updater : Timer = $NavUpdater
+@onready var i_frames : Timer = $iFrameTimer
 @onready var player : Player = get_tree().get_first_node_in_group('Player')
 
 @onready var accel : float = speed / accel_time
@@ -27,3 +28,17 @@ func _physics_process(delta):
 
 func _on_nav_update():
 	nav_agent.set_target_position(player.position)
+
+
+func get_hit(damage):
+	if not i_frames.is_stopped():
+		return
+	health -= damage
+	i_frames.start(0.1)     
+	if health <= 0:
+		die()
+	print('enemy health ' + str(health))
+
+
+func die():
+	queue_free()

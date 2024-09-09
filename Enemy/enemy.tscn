@@ -1,17 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2g10tiyn2p0e"]
+[gd_scene load_steps=8 format=3 uid="uid://d2g10tiyn2p0e"]
 
 [ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://icon.svg" id="1_e5jiv"]
 [ext_resource type="Script" path="res://Enemy/enemy.gd" id="1_madox"]
+[ext_resource type="Script" path="res://Enemy/enemy_hitbox.gd" id="3_lqcl1"]
+[ext_resource type="Script" path="res://Enemy/enemy_hurtbox.gd" id="4_nwj6v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m7d43"]
 radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vebf4"]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5r6yt"]
+radius = 40.0
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 motion_mode = 1
 script = ExtResource("1_madox")
-speed = 380.0
+speed = 400.0
 accel_time = 0.2
+health = 100
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(1, 0.44, 0.44, 1)
@@ -19,6 +28,7 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_e5jiv")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
+z_index = 1
 shape = SubResource("CircleShape2D_m7d43")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -28,5 +38,25 @@ debug_enabled = true
 [node name="NavUpdater" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+
+[node name="iFrameTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="ContactHitbox" type="Area2D" parent="."]
+z_index = 2
+script = ExtResource("3_lqcl1")
+damage = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox"]
+z_index = 2
+shape = SubResource("CircleShape2D_vebf4")
+debug_color = Color(0.966772, 0.135364, 0.31688, 0.42)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+script = ExtResource("4_nwj6v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_5r6yt")
+debug_color = Color(0.821933, 0.401198, 0, 0.42)
 
 [connection signal="timeout" from="NavUpdater" to="." method="_on_nav_update"]
