@@ -1,9 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://xgt1tqnsiykx"]
+[gd_scene load_steps=9 format=3 uid="uid://xgt1tqnsiykx"]
 
-[ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://player.tscn" id="1_junjd"]
+[ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://Player/player.tscn" id="1_junjd"]
 [ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://icon.svg" id="2_xnf31"]
+[ext_resource type="Script" path="res://Player/dash_cd.gd" id="3_kq0d7"]
+[ext_resource type="PackedScene" uid="uid://d2g10tiyn2p0e" path="res://Enemy/enemy.tscn" id="4_0mllx"]
 
-[node name="level" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csu34"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4o0w"]
+bg_color = Color(0.0521896, 0.0665033, 0.200823, 1)
+skew = Vector2(-0.2, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.48, 0.666667, 0.8, 1)
+shadow_size = 3
+shadow_offset = Vector2(-5, 5)
+
+[sub_resource type="Theme" id="Theme_5w66l"]
+ProgressBar/constants/outline_size = 2
+ProgressBar/styles/background = SubResource("StyleBoxFlat_csu34")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_k4o0w")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_n3njp"]
+vertices = PackedVector2Array(1670.24, 782.406, -1357.4, 915.523, -1260.52, -859.031, 1713.72, -870.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881, 1680, 792, -1368, 926)])
+
+[node name="Level" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_junjd")]
 
@@ -12,3 +38,33 @@
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(126, 2)
 texture = ExtResource("2_xnf31")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 240.0
+offset_bottom = 80.0
+
+[node name="DashCooldown" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_5w66l")
+max_value = 1.0
+value = 1.0
+show_percentage = false
+script = ExtResource("3_kq0d7")
+
+[node name="Enemy" parent="." instance=ExtResource("4_0mllx")]
+position = Vector2(427, 103)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_n3njp")
