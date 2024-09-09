@@ -1,21 +1,41 @@
-[gd_scene load_steps=9 format=3 uid="uid://xgt1tqnsiykx"]
+[gd_scene load_steps=17 format=3 uid="uid://xgt1tqnsiykx"]
 
 [ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://Player/player.tscn" id="1_junjd"]
 [ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://icon.svg" id="2_xnf31"]
+[ext_resource type="Shader" path="res://background.gdshader" id="3_3xclt"]
 [ext_resource type="Script" path="res://Player/dash_cd.gd" id="3_kq0d7"]
 [ext_resource type="PackedScene" uid="uid://d2g10tiyn2p0e" path="res://Enemy/enemy.tscn" id="4_0mllx"]
+[ext_resource type="Script" path="res://Player/healthbar.gd" id="5_oya3b"]
+[ext_resource type="Script" path="res://Player/taken_damage_healthbar.gd" id="6_px2xj"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_n3njp"]
+vertices = PackedVector2Array(1670.24, 782.406, -1357.4, 915.523, -1260.52, -859.031, 1713.72, -870.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881, 1680, 792, -1368, 926)])
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bait7"]
+seed = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cqjew"]
+seamless = true
+noise = SubResource("FastNoiseLite_bait7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1vop7"]
+shader = ExtResource("3_3xclt")
+shader_parameter/noise = SubResource("NoiseTexture2D_cqjew")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csu34"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4o0w"]
-bg_color = Color(0.0521896, 0.0665033, 0.200823, 1)
-skew = Vector2(-0.2, 0)
+bg_color = Color(0.052, 0.0766666, 0.2, 1)
+skew = Vector2(0.2, 0)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.48, 0.666667, 0.8, 1)
+border_color = Color(0.48, 0.693333, 0.8, 1)
+shadow_color = Color(0.04, 0.0666666, 0.2, 0.6)
 shadow_size = 3
 shadow_offset = Vector2(-5, 5)
 
@@ -24,10 +44,29 @@ ProgressBar/constants/outline_size = 2
 ProgressBar/styles/background = SubResource("StyleBoxFlat_csu34")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_k4o0w")
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_n3njp"]
-vertices = PackedVector2Array(1670.24, 782.406, -1357.4, 915.523, -1260.52, -859.031, 1713.72, -870.953)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881, 1680, 792, -1368, 926)])
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74373"]
+bg_color = Color(0.2, 0.05, 0.075, 1)
+skew = Vector2(0.2, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.48, 0.533333, 1)
+shadow_color = Color(0.2, 0.04, 0.04, 0.6)
+shadow_size = 3
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wybjn"]
+bg_color = Color(0.7, 0.35, 0.408333, 1)
+skew = Vector2(0.2, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.08, 0.133333, 1)
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 3
+shadow_offset = Vector2(-3, 5)
 
 [node name="Level" type="Node2D"]
 
@@ -35,36 +74,93 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
+[node name="Enemy" parent="." instance=ExtResource("4_0mllx")]
+position = Vector2(427, 103)
+
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(126, 2)
 texture = ExtResource("2_xnf31")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+navigation_polygon = SubResource("NavigationPolygon_n3njp")
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="CanvasLayerBG" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="Control" parent="CanvasLayerBG"]
+z_index = -5
 layout_mode = 3
-anchors_preset = 0
-offset_right = 240.0
-offset_bottom = 80.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="DashCooldown" type="ProgressBar" parent="CanvasLayer/Control"]
+[node name="BackgroundRect" type="ColorRect" parent="CanvasLayerBG/Background"]
+z_index = -5
+material = SubResource("ShaderMaterial_1vop7")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CanvasLayerUI" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Control" type="Control" parent="CanvasLayerUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 260.0
+offset_bottom = 100.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayerUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="TotalHealth" type="ProgressBar" parent="CanvasLayerUI/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_5w66l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_74373")
+value = 100.0
+show_percentage = false
+script = ExtResource("5_oya3b")
+
+[node name="TakenDamage" type="ProgressBar" parent="CanvasLayerUI/Control/VBoxContainer/TotalHealth"]
+z_index = -1
+layout_mode = 2
+offset_right = 240.0
+offset_bottom = 35.0
+size_flags_vertical = 3
+theme = SubResource("Theme_5w66l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_wybjn")
+value = 100.0
+show_percentage = false
+script = ExtResource("6_px2xj")
+
+[node name="TakenDamageTimer" type="Timer" parent="CanvasLayerUI/Control/VBoxContainer/TotalHealth"]
+wait_time = 0.15
+one_shot = true
+
+[node name="DashCooldown2" type="ProgressBar" parent="CanvasLayerUI/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 theme = SubResource("Theme_5w66l")
 max_value = 1.0
 value = 1.0
 show_percentage = false
 script = ExtResource("3_kq0d7")
 
-[node name="Enemy" parent="." instance=ExtResource("4_0mllx")]
-position = Vector2(427, 103)
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_n3njp")
+[connection signal="value_changed" from="CanvasLayerUI/Control/VBoxContainer/TotalHealth" to="CanvasLayerUI/Control/VBoxContainer/TotalHealth" method="_on_value_changed"]
+[connection signal="timeout" from="CanvasLayerUI/Control/VBoxContainer/TotalHealth/TakenDamageTimer" to="CanvasLayerUI/Control/VBoxContainer/TotalHealth/TakenDamage" method="_on_taken_damage_timer_timeout"]

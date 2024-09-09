@@ -41,6 +41,7 @@ autostart = true
 
 [node name="iFrameTimer" type="Timer" parent="."]
 wait_time = 0.1
+one_shot = true
 
 [node name="ContactHitbox" type="Area2D" parent="."]
 z_index = 2
