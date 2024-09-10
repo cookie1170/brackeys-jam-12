@@ -1,0 +1,185 @@
+[gd_scene load_steps=15 format=3 uid="uid://bvr4lirw6ffs5"]
+
+[ext_resource type="Script" path="res://Common/healthbar.gd" id="1_ls1lb"]
+[ext_resource type="Script" path="res://Common/taken_damage_healthbar.gd" id="2_m5hot"]
+[ext_resource type="Script" path="res://Common/ult_cooldown.gd" id="3_7ea37"]
+[ext_resource type="FontFile" uid="uid://dtpugrbjdcsch" path="res://Common/Pixellari.ttf" id="4_33seg"]
+[ext_resource type="Script" path="res://Common/dash_cd.gd" id="5_r0l14"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csu34"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4o0w"]
+bg_color = Color(0.052, 0.0766666, 0.2, 1)
+skew = Vector2(0.2, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.48, 0.693333, 0.8, 1)
+shadow_color = Color(0.04, 0.0666666, 0.2, 0.6)
+shadow_size = 3
+shadow_offset = Vector2(-5, 5)
+
+[sub_resource type="Theme" id="Theme_5w66l"]
+ProgressBar/constants/outline_size = 2
+ProgressBar/styles/background = SubResource("StyleBoxFlat_csu34")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_k4o0w")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74373"]
+bg_color = Color(0.2, 0.05, 0.075, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.48, 0.533333, 1)
+shadow_color = Color(0.2, 0.04, 0.04, 0.6)
+shadow_size = 3
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56msk"]
+bg_color = Color(0.2, 0.05, 0.0724999, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.478431, 0.533333, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wybjn"]
+bg_color = Color(0.7, 0.35, 0.408333, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4, 0.08, 0.133333, 1)
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 3
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iq8yy"]
+bg_color = Color(0.6, 0.6, 0.6, 0.235294)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.8, 0.8, 0.705882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjcrh"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2o1y"]
+bg_color = Color(1, 1, 1, 0.392157)
+
+[node name="CanvasLayerUI" type="CanvasLayer"]
+layer = -1
+
+[node name="Health" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -70.0
+offset_right = 270.0
+offset_bottom = -30.0
+grow_vertical = 0
+
+[node name="TotalHealth" type="ProgressBar" parent="Health"]
+layout_mode = 2
+offset_right = 240.0
+offset_bottom = 35.0
+size_flags_vertical = 3
+theme = SubResource("Theme_5w66l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_74373")
+value = 100.0
+show_percentage = false
+script = ExtResource("1_ls1lb")
+
+[node name="TakenDamage" type="ProgressBar" parent="Health/TotalHealth"]
+z_index = -1
+layout_mode = 2
+offset_right = 240.0
+offset_bottom = 35.0
+size_flags_vertical = 3
+theme = SubResource("Theme_5w66l")
+theme_override_styles/background = SubResource("StyleBoxFlat_56msk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_wybjn")
+value = 100.0
+show_percentage = false
+script = ExtResource("2_m5hot")
+
+[node name="TakenDamageTimer" type="Timer" parent="Health/TotalHealth"]
+wait_time = 0.15
+one_shot = true
+
+[node name="Abilities" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -100.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Abilities"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Ultimate" type="PanelContainer" parent="Abilities/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_iq8yy")
+
+[node name="UltCooldown" type="ProgressBar" parent="Abilities/HBoxContainer/Ultimate"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_cjcrh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e2o1y")
+max_value = 1.0
+value = 1.0
+fill_mode = 3
+show_percentage = false
+script = ExtResource("3_7ea37")
+
+[node name="Label" type="Label" parent="Abilities/HBoxContainer/Ultimate"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_33seg")
+text = "SPACE
+ABILITY"
+horizontal_alignment = 1
+
+[node name="Dash" type="PanelContainer" parent="Abilities/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_iq8yy")
+
+[node name="DashCooldown" type="ProgressBar" parent="Abilities/HBoxContainer/Dash"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_cjcrh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_e2o1y")
+max_value = 1.0
+value = 1.0
+fill_mode = 3
+show_percentage = false
+script = ExtResource("5_r0l14")
+
+[node name="Label" type="Label" parent="Abilities/HBoxContainer/Dash"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_33seg")
+text = "SHIFT
+DASH"
+horizontal_alignment = 1
+
+[connection signal="value_changed" from="Health/TotalHealth" to="Health/TotalHealth" method="_on_value_changed"]
+[connection signal="timeout" from="Health/TotalHealth/TakenDamageTimer" to="Health/TotalHealth/TakenDamage" method="_on_taken_damage_timer_timeout"]
