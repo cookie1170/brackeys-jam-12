@@ -30,7 +30,7 @@ func _on_nav_update():
 	nav_agent.set_target_position(player.position)
 
 
-func get_hit(damage):
+func get_hit(damage, pos, kb_amt):
 	if not i_frames.is_stopped():
 		return
 	health -= damage

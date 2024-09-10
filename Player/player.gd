@@ -13,6 +13,7 @@ class_name Player
 @onready var shoot_cd : Timer = $ShootCooldown
 @onready var i_frames : Timer = $iFrameTimer
 @onready var dash_hitbox : CollisionShape2D = $DashHitbox/CollisionShape2D
+@onready var hurt_particles : GPUParticles2D = $HurtParticles
 @onready var shoot_point : Marker2D = $ShootPoint
 @onready var accel : float = speed / accel_time
 
@@ -62,16 +63,32 @@ func shoot():
 	shoot_cd.start()
 
 
-func get_hit(damage):
+func get_hit(damage, pos, kb_amt):
 	if not i_frames.is_stopped():
 		return
+	emit_hurt_particles(0.2, pos)
 	health -= damage
-	i_frames.start(0.1)
+	velocity = (Vector2.LEFT.rotated(rad_to_deg(get_angle_to(pos))).normalized()) * kb_amt
+	i_frames.start(0.5)
+	flash_white(0.3)
 	if health <= 0:
 		die()
 	print('player health ' + str(health))
 
 
+func flash_white(time):
+	material.set_shader_parameter('flash', true)
+	await get_tree().create_timer(time).timeout
+	material.set_shader_parameter('flash', false)
+
+
+func emit_hurt_particles(delay, pos):
+	await get_tree().create_timer(delay).timeout
+	hurt_particles.global_position = global_position	
+	hurt_particles.look_at(pos)
+	hurt_particles.restart()
+
+
 func die():
 	#placeholder
-	queue_free()
+	health = 100

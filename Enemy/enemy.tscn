@@ -46,7 +46,6 @@ one_shot = true
 [node name="ContactHitbox" type="Area2D" parent="."]
 z_index = 2
 script = ExtResource("3_lqcl1")
-damage = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ContactHitbox"]
 z_index = 2

@@ -8,5 +8,5 @@ func _process(delta):
 	value = lerpf(value, player.health, 2.5 * delta)
 
 
-func _on_value_changed(value):
+func _on_value_changed(_changed_value):
 	taken_damage_timer.start()

@@ -15,6 +15,5 @@ func _on_get_hit(hitbox : EnemyHitbox):
 	if hitbox == null:
 		return
 
-
 	if owner.has_method('get_hit'):
-		owner.get_hit(hitbox.damage)
+		owner.get_hit(hitbox.damage, hitbox.global_position, hitbox.kb_amt)

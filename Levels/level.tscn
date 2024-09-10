@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://xgt1tqnsiykx"]
+[gd_scene load_steps=8 format=3 uid="uid://xgt1tqnsiykx"]
 
 [ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://Player/player.tscn" id="1_0btdn"]
 [ext_resource type="PackedScene" uid="uid://d2g10tiyn2p0e" path="res://Enemy/enemy.tscn" id="2_viwa2"]
@@ -10,6 +10,12 @@
 vertices = PackedVector2Array(1670.24, 782.406, -1357.4, 915.523, -1260.52, -859.031, 1713.72, -870.953)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881, 1680, 792, -1368, 926)])
+
+[sub_resource type="Environment" id="Environment_q401w"]
+background_mode = 3
+glow_enabled = true
+glow_bloom = 0.15
+glow_hdr_threshold = 0.75
 
 [node name="Level" type="Node2D"]
 
@@ -31,3 +37,6 @@ navigation_polygon = SubResource("NavigationPolygon_n3njp")
 [node name="CanvasLayerBG" parent="." instance=ExtResource("4_dj5ye")]
 
 [node name="CanvasLayerUI" parent="." instance=ExtResource("5_a1jat")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_q401w")
