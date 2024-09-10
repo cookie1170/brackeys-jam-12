@@ -1,5 +1,5 @@
 extends Area2D
-class_name EnemyHurtBox
+class_name EnemyHurtbox
 
 
 func _init():
@@ -7,13 +7,7 @@ func _init():
 	collision_mask = 8
 
 
-func _ready():
-	connect('area_entered', _on_get_hit)
-
-
-func _on_get_hit(hitbox : PlayerHitbox):
-	if hitbox == null:
-		return
-
-	if owner.has_method('get_hit'):
-		owner.get_hit(hitbox.damage, hitbox.global_position, hitbox.kb_amt)
+func _physics_process(_delta):
+	for area in get_overlapping_areas():
+		if area is PlayerHitbox:
+			owner.get_hit(area.damage, area.global_position, area.kb_amt)

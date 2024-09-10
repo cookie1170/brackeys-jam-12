@@ -66,10 +66,13 @@ func shoot():
 func get_hit(damage, pos, kb_amt):
 	if not i_frames.is_stopped():
 		return
-	emit_hurt_particles(0.2, pos)
+	hurt_particles.global_position = global_position
+	hurt_particles.look_at(pos)
+	hurt_particles.restart()
 	health -= damage
-	velocity = (Vector2.LEFT.rotated(rad_to_deg(get_angle_to(pos))).normalized()) * kb_amt
-	i_frames.start(0.5)
+	knockback(0.05, kb_amt, pos)
+	slowdown(0.025, 0.25)
+	i_frames.start(1)
 	flash_white(0.3)
 	if health <= 0:
 		die()
@@ -82,11 +85,15 @@ func flash_white(time):
 	material.set_shader_parameter('flash', false)
 
 
-func emit_hurt_particles(delay, pos):
+func knockback(delay, amt, pos):
 	await get_tree().create_timer(delay).timeout
-	hurt_particles.global_position = global_position	
-	hurt_particles.look_at(pos)
-	hurt_particles.restart()
+	velocity = (Vector2.LEFT.rotated(get_angle_to(pos) + rotation).normalized()) * amt
+
+
+func slowdown(length, amt):
+	Engine.time_scale = amt
+	await get_tree().create_timer(length / amt).timeout
+	Engine.time_scale = 1
 
 
 func die():

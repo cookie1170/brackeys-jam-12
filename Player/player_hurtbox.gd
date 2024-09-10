@@ -7,13 +7,7 @@ func _init():
 	collision_mask = 16
 
 
-func _ready():
-	connect('area_entered', _on_get_hit)
-
-
-func _on_get_hit(hitbox : EnemyHitbox):
-	if hitbox == null:
-		return
-
-	if owner.has_method('get_hit'):
-		owner.get_hit(hitbox.damage, hitbox.global_position, hitbox.kb_amt)
+func _physics_process(_delta):
+	for area in get_overlapping_areas():
+		if area is EnemyHitbox:
+			owner.get_hit(area.damage, area.global_position, area.kb_amt)
