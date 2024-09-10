@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://d36lt20s0l13v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_7jtvj"]
-[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://icon.svg" id="1_i84ye"]
+[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://Common/icon.svg" id="1_i84ye"]
 [ext_resource type="Script" path="res://Player/player_hurtbox.gd" id="3_ejkdc"]
 [ext_resource type="Script" path="res://Player/player_hitbox.gd" id="4_n1dep"]
 
@@ -30,6 +30,18 @@ texture = ExtResource("1_i84ye")
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 z_index = 1
 shape = SubResource("CircleShape2D_komhc")
+metadata/_edit_lock_ = true
+
+[node name="ShootPoint" type="Marker2D" parent="."]
+position = Vector2(31, 0)
+
+[node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 0.35
+one_shot = true
+
+[node name="UltCooldown" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
 
 [node name="DashCooldown" type="Timer" parent="."]
 one_shot = true
@@ -48,17 +60,21 @@ one_shot = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
 script = ExtResource("3_ejkdc")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 z_index = 2
 shape = SubResource("CircleShape2D_8ltd1")
 debug_color = Color(0.823529, 0.4, 0, 0.419608)
+metadata/_edit_lock_ = true
 
 [node name="DashHitbox" type="Area2D" parent="."]
 script = ExtResource("4_n1dep")
 damage = 40
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitbox"]
 shape = SubResource("CircleShape2D_s2htm")
 disabled = true
 debug_color = Color(0.968627, 0.137255, 0.317647, 0.419608)
+metadata/_edit_lock_ = true

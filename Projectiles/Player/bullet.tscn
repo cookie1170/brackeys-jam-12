@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8xola8nq0taw"]
+
+[ext_resource type="Script" path="res://Projectiles/Player/bulletPlayer.gd" id="1_oiyt6"]
+[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://Common/icon.svg" id="1_sajuc"]
+[ext_resource type="Script" path="res://Player/player_hitbox.gd" id="3_ova6i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qef68"]
+size = Vector2(20, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pvfjk"]
+size = Vector2(26, 12)
+
+[node name="BulletPlayer" type="RigidBody2D"]
+collision_layer = 0
+mass = 0.05
+gravity_scale = 0.0
+script = ExtResource("1_oiyt6")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.15, 0.05)
+texture = ExtResource("1_sajuc")
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qef68")
+
+[node name="BulletHitbox" type="Area2D" parent="."]
+script = ExtResource("3_ova6i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletHitbox"]
+shape = SubResource("RectangleShape2D_pvfjk")
+
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn"]

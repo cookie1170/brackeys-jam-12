@@ -4,4 +4,4 @@ extends ProgressBar
 
 
 func _process(delta):
-	value = 1.0 - timer.time_left
+	value = timer.time_left
