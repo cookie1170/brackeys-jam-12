@@ -10,14 +10,15 @@ class_name Player
 @onready var dash_hitbox : CollisionShape2D = $DashHitbox/CollisionShape2D
 @onready var hurt_particles : GPUParticles2D = $HurtParticles
 @onready var shoot_point : Marker2D = $ShootPoint
-@onready var accel : float = move_speed / accel_time
 
 var direction : Vector2
 var shoot_damage : int = 20
+var attack_speed : float = 0.35
 var dash_damage : int = 40
-var health  : int = 100
+var health : int = 100
 var move_speed : int = 360
-var accel_time : int = 0.1
+var accel_time : float = 0.1
+var accel : int = 3600
 var dash_speed : int = 1600
 var bullet_scene : PackedScene = preload("res://Projectiles/Player/bullet.tscn")
 var damage_items : Array = []
@@ -43,6 +44,8 @@ func _physics_process(delta):
 	# shooting
 	if Input.is_action_just_pressed('attack') and shoot_cd.is_stopped():
 		shoot()
+
+	shoot_cd.wait_time = attack_speed
 
 	move_and_slide()
 
@@ -94,3 +97,22 @@ func slowdown(length, amt):
 func die():
 	#placeholder
 	health = 100
+
+
+func update_stats():
+	shoot_damage = 20
+	dash_damage = 40
+	health = 100
+	move_speed = 360
+	attack_speed = 0.35
+
+	for i in len(damage_items):
+		shoot_damage += damage_items[i]
+		dash_damage += damage_items[i] * 1.5
+	for i in len(move_speed_items):
+		move_speed += move_speed_items[i]
+		if attack_speed > 0.1: attack_speed -= move_speed_items[i] * 0.00125
+	for i in len(health_items):
+		health += health_items[i]
+
+	accel = move_speed / accel_time

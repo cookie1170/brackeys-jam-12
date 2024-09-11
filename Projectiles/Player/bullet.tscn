@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://b8xola8nq0taw"]
 
 [ext_resource type="Script" path="res://Projectiles/Player/bulletPlayer.gd" id="1_oiyt6"]
-[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://Common/icon.svg" id="1_sajuc"]
+[ext_resource type="Texture2D" uid="uid://c73my8p0061wc" path="res://Sprites/triangle-16x16.png" id="2_v407j"]
 [ext_resource type="Script" path="res://Player/player_hitbox.gd" id="3_ova6i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qef68"]
-size = Vector2(20, 5)
+size = Vector2(8, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvfjk"]
-size = Vector2(26, 12)
+size = Vector2(12, 10)
 
 [node name="BulletPlayer" type="RigidBody2D"]
 collision_layer = 0
@@ -17,8 +17,10 @@ gravity_scale = 0.0
 script = ExtResource("1_oiyt6")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.15, 0.05)
-texture = ExtResource("1_sajuc")
+modulate = Color(0.231373, 0.364706, 0.788235, 1)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_v407j")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_qef68")

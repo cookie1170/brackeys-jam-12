@@ -1,122 +1,267 @@
-[gd_scene format=3 uid="uid://dsfsmh8ap7i6q"]
+[gd_scene load_steps=16 format=3 uid="uid://dsfsmh8ap7i6q"]
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[ext_resource type="Script" path="res://Common/level_up.gd" id="1_dgqv8"]
+[ext_resource type="Texture2D" uid="uid://sb34427yujn7" path="res://Sprites/circle-32x32.png" id="1_l14ve"]
+[ext_resource type="Texture2D" uid="uid://xyh1g88mooit" path="res://Sprites/circle-16x16.png" id="2_cjqp8"]
+[ext_resource type="Texture2D" uid="uid://ctp6ambmm4f73" path="res://Sprites/square-32x32.png" id="3_2ib4s"]
+[ext_resource type="Script" path="res://Common/StatButton.gd" id="3_7namg"]
+[ext_resource type="Texture2D" uid="uid://ccdx566hevs8p" path="res://Sprites/square-16x16.png" id="4_0yd6t"]
+[ext_resource type="Texture2D" uid="uid://coj8oydw7g6go" path="res://Sprites/triangle-32x32.png" id="4_ijejc"]
+[ext_resource type="FontFile" uid="uid://dtpugrbjdcsch" path="res://Common/Pixellari.ttf" id="5_pei1l"]
+[ext_resource type="Texture2D" uid="uid://c73my8p0061wc" path="res://Sprites/triangle-16x16.png" id="6_rg2aq"]
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ebaet"]
+bg_color = Color(0.160784, 0.211765, 0.435294, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.231373, 0.364706, 0.788235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edydx"]
+bg_color = Color(0.364706, 0.152941, 0.364706, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.937255, 0.490196, 0.341176, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bi5d"]
+bg_color = Color(0.145098, 0.443137, 0.47451, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.219608, 0.717647, 0.392157, 1)
+
+[sub_resource type="Animation" id="Animation_8mgpa"]
+resource_name = "fade"
+length = 1.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/SpeedPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/DamagePanel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HBoxContainer/HealthPanel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8a71o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/SpeedPanel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/HealthPanel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HBoxContainer/DamagePanel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vwajh"]
+_data = {
+"RESET": SubResource("Animation_8a71o"),
+"fade": SubResource("Animation_8mgpa")
+}
+
+[node name="LevelUpUI" type="CanvasLayer"]
+script = ExtResource("1_dgqv8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -100.0
-offset_right = 200.0
-offset_bottom = 100.0
+offset_left = -234.0
+offset_top = -116.0
+offset_right = 234.0
+offset_bottom = 84.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 60
 
-[node name="Panel" type="Panel" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelLabel" type="Panel" parent="Control/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-
-[node name="Speed" type="Label" parent="Control/VBoxContainer/HBoxContainer/PanelLabel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.5
-offset_top = -11.5
-offset_right = 24.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "SPEED"
-horizontal_alignment = 1
-
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(10, 0)
+[node name="SpeedPanel" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ebaet")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelLabel" type="Panel" parent="Control/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-
-[node name="Speed" type="Label" parent="Control/VBoxContainer/HBoxContainer2/PanelLabel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.5
-offset_top = -11.5
-offset_right = 19.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "DMG"
-horizontal_alignment = 1
-
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(10, 0)
+[node name="SpeedButton" type="TextureButton" parent="HBoxContainer/SpeedPanel"]
+self_modulate = Color(0.254902, 0.65098, 0.964706, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="Control/VBoxContainer"]
-layout_mode = 2
 size_flags_vertical = 3
+texture_normal = ExtResource("1_l14ve")
+texture_hover = ExtResource("2_cjqp8")
+texture_focused = ExtResource("2_cjqp8")
+ignore_texture_size = true
+stretch_mode = 4
+script = ExtResource("3_7namg")
+stat = 0
 
-[node name="PanelLabel" type="Panel" parent="Control/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-
-[node name="Speed" type="Label" parent="Control/VBoxContainer/HBoxContainer3/PanelLabel"]
+[node name="SpeedLabel" type="Label" parent="HBoxContainer/SpeedPanel/SpeedButton"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -11.0
-offset_top = -11.5
-offset_right = 11.0
-offset_bottom = 11.5
+offset_left = -54.0
+offset_top = 24.5
+offset_right = 54.0
+offset_bottom = 97.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "HP
+theme_override_colors/font_color = Color(0.231373, 0.364706, 0.788235, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_pei1l")
+text = "SPEED
+Increases the move speed and firerate
 "
 horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="Panel" type="Panel" parent="Control/VBoxContainer/HBoxContainer3"]
-custom_minimum_size = Vector2(10, 0)
+[node name="DamagePanel" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_edydx")
+
+[node name="DamageButton" type="TextureButton" parent="HBoxContainer/DamagePanel"]
+self_modulate = Color(0.694118, 0.243137, 0.32549, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("3_2ib4s")
+texture_hover = ExtResource("4_0yd6t")
+texture_focused = ExtResource("4_0yd6t")
+ignore_texture_size = true
+stretch_mode = 4
+script = ExtResource("3_7namg")
+
+[node name="DamageLabel" type="Label" parent="HBoxContainer/DamagePanel/DamageButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = 24.5
+offset_right = 61.0
+offset_bottom = 99.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.937255, 0.490196, 0.341176, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_pei1l")
+text = "DAMAGE
+Increases the attack damage"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HealthPanel" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_5bi5d")
+
+[node name="HealthButton" type="TextureButton" parent="HBoxContainer/HealthPanel"]
+self_modulate = Color(0.654902, 0.941176, 0.439216, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("4_ijejc")
+texture_hover = ExtResource("6_rg2aq")
+texture_focused = ExtResource("6_rg2aq")
+ignore_texture_size = true
+stretch_mode = 4
+script = ExtResource("3_7namg")
+stat = 2
+
+[node name="HealthLabel" type="Label" parent="HBoxContainer/HealthPanel/HealthButton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = 24.5
+offset_right = 57.0
+offset_bottom = 99.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.219608, 0.717647, 0.392157, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("5_pei1l")
+text = "HEALTH
+Increases the player's health"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vwajh")
+}
+
+[connection signal="pressed" from="HBoxContainer/SpeedPanel/SpeedButton" to="HBoxContainer/SpeedPanel/SpeedButton" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/DamagePanel/DamageButton" to="HBoxContainer/DamagePanel/DamageButton" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/HealthPanel/HealthButton" to="HBoxContainer/HealthPanel/HealthButton" method="_on_pressed"]

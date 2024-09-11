@@ -7,6 +7,7 @@ var final_value : float = 100
 
 func _process(delta):
 	value = lerpf(value, final_value, 5 * delta)
+	max_value = player.health
 
 
 func _on_taken_damage_timer_timeout():
