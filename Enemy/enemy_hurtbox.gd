@@ -10,4 +10,4 @@ func _init():
 func _physics_process(_delta):
 	for area in get_overlapping_areas():
 		if area is PlayerHitbox:
-			owner.get_hit(area.damage, area.global_position, area.kb_amt)
+			owner.get_hit(area.damage, area.global_position, area.kb_amt, area.stun_amt)

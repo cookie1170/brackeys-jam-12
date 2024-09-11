@@ -35,17 +35,15 @@ func _on_nav_update():
 	nav_agent.set_target_position(player.position)
 
 
-func get_hit(damage, pos, kb_amt):
+func get_hit(damage, pos, kb_amt, stun_amt):
 	if not i_frames.is_stopped():
 		return
-	hurt_particles.global_position = global_position
-	hurt_particles.look_at(pos)
 	hurt_particles.restart()
 	health -= damage
 	knockback(0.05, kb_amt, pos)
 	i_frames.start(0.4)
 	flash_white(0.3)
-	stun_timer.start(0.3)
+	stun_timer.start(stun_amt)
 	if health <= 0:
 		die()
 	print('enemy health ' + str(health))

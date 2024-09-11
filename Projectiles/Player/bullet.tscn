@@ -25,6 +25,8 @@ shape = SubResource("RectangleShape2D_qef68")
 
 [node name="BulletHitbox" type="Area2D" parent="."]
 script = ExtResource("3_ova6i")
+kb_amt = 800
+stun_amt = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletHitbox"]
 shape = SubResource("RectangleShape2D_pvfjk")
