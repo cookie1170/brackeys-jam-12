@@ -27,10 +27,6 @@ material = SubResource("ShaderMaterial_u17db")
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_7jtvj")
-speed = 360.0
-accel_time = 0.1
-dash_speed = 1600.0
-health = 100
 
 [node name="Sprite" type="Sprite2D" parent="."]
 use_parent_material = true

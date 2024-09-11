@@ -2,11 +2,6 @@ extends CharacterBody2D
 class_name Player
 
 
-@export var speed : float
-@export var accel_time : float
-@export var dash_speed : float
-@export var health  : int
-
 @onready var dash_cd : Timer = $DashCooldown
 @onready var dash_buffer : Timer = $DashBuffer
 @onready var dash_timer : Timer = $DashTimer
@@ -15,19 +10,26 @@ class_name Player
 @onready var dash_hitbox : CollisionShape2D = $DashHitbox/CollisionShape2D
 @onready var hurt_particles : GPUParticles2D = $HurtParticles
 @onready var shoot_point : Marker2D = $ShootPoint
-@onready var accel : float = speed / accel_time
+@onready var accel : float = move_speed / accel_time
 
 var direction : Vector2
 var shoot_damage : int = 20
 var dash_damage : int = 40
+var health  : int = 100
+var move_speed : int = 360
+var accel_time : int = 0.1
+var dash_speed : int = 1600
 var bullet_scene : PackedScene = preload("res://Projectiles/Player/bullet.tscn")
+var damage_items : Array = []
+var health_items : Array = []
+var move_speed_items : Array = []
 
 
 func _physics_process(delta):
 	look_at(get_global_mouse_position())
 	# movement
 	direction = Vector2(Input.get_axis('left', 'right'), Input.get_axis('up', 'down'))
-	velocity = velocity.move_toward(direction.normalized() * speed, accel * delta)
+	velocity = velocity.move_toward(direction.normalized() * move_speed, accel * delta)
 
 	# dashing and dash buffering
 	if Input.is_action_just_pressed('dash'):
