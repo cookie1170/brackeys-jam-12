@@ -6,7 +6,7 @@ extends ProgressBar
 
 func _process(delta):
 	value = lerpf(value, player.health, 2.5 * delta)
-	max_value = player.health
+	max_value = player.max_health
 
 
 func _on_value_changed(_changed_value):

@@ -13,8 +13,10 @@ func toggle():
 	 and health_panel.modulate == Color.html('ffffff00'):
 		for button in buttons:
 			button.disabled = false
+			get_tree().paused = true
 		animation_player.play('fade')
 	else:
 		for button in buttons:
 			button.disabled = true
+			get_tree().paused = false
 		animation_player.play_backwards('fade')

@@ -7,6 +7,7 @@ class_name Player
 @onready var dash_timer : Timer = $DashTimer
 @onready var shoot_cd : Timer = $ShootCooldown
 @onready var i_frames : Timer = $iFrameTimer
+@onready var heal_timer : Timer = $HealTimer
 @onready var dash_hitbox : CollisionShape2D = $DashHitbox/CollisionShape2D
 @onready var hurt_particles : GPUParticles2D = $HurtParticles
 @onready var dash_particles : GPUParticles2D = $DashParticles
@@ -20,6 +21,7 @@ var shoot_damage : int = 20
 var attack_speed : float = 0.35
 var dash_damage : int = 40
 var health : int = 100
+var max_health : int = 100
 var move_speed : int = 360
 var accel_time : float = 0.1
 var accel : int = 3600
@@ -55,10 +57,6 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed('attack') and shoot_cd.is_stopped():
 		shoot()
 
-	shoot_cd.wait_time = attack_speed
-	if Input.is_action_just_pressed('ui_accept'):
-		xp += 10
-		print(xp)
 	# levelling up duh
 	if xp >= required_xp:
 		level_up()
@@ -90,6 +88,7 @@ func get_hit(damage, pos, kb_amt):
 	if not i_frames.is_stopped():
 		return
 	hurt_particles.restart()
+	heal_timer.start()
 	health -= damage
 	velocity = (Vector2.LEFT.rotated(get_angle_to(pos) + rotation).normalized()) * kb_amt
 	slowdown(0.025, 0.35)
@@ -121,7 +120,7 @@ func update_stats():
 	# reset stats
 	shoot_damage = 20
 	dash_damage = 40
-	health = 100
+	max_health = 100
 	move_speed = 360
 	attack_speed = 0.35
 
@@ -136,6 +135,7 @@ func update_stats():
 		health += health_items[i]
 
 	accel = move_speed / accel_time
+	health = max_health
 
 
 func _on_enemy_killed():
@@ -144,6 +144,12 @@ func _on_enemy_killed():
 
 
 func level_up():
-	required_xp *= 1.1
 	xp = 0
+	required_xp *= 1.1
 	LevelUp.toggle()
+
+
+func _on_heal_timeout():
+	# healing
+	health = max_health
+	print('healed')

@@ -34,6 +34,7 @@ accel_time = 0.1
 health = 100
 
 [node name="HurtParticles" type="GPUParticles2D" parent="."]
+process_mode = 3
 emitting = false
 amount = 10
 process_material = ExtResource("3_mfu38")
