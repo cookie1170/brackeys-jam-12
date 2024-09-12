@@ -17,9 +17,9 @@ func toggle():
 	 and damage_panel.modulate == Color.html('ffffff00')\
 	 and health_panel.modulate == Color.html('ffffff00'):
 		for button in buttons:
-			button.disabled = true
+			button.disabled = false
 		animation_player.play('fade')
 	else:
 		for button in buttons:
-			button.disabled = false
+			button.disabled = true
 		animation_player.play_backwards('fade')

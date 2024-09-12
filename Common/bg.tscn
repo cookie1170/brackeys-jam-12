@@ -5,7 +5,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1vop7"]
 shader = ExtResource("1_38vsh")
-shader_parameter/bgcolor = Vector3(0, 0, 0.025)
+shader_parameter/bgcolor = Vector3(0, 0, 0.045)
 shader_parameter/stepamount = 0.35
 shader_parameter/noise = ExtResource("2_g0i1j")
 

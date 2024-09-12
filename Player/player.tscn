@@ -8,10 +8,12 @@
 [ext_resource type="Material" uid="uid://d2jto34cs63k0" path="res://Common/Hurt Particles.tres" id="4_2dpny"]
 [ext_resource type="Script" path="res://Player/player_hitbox.gd" id="4_n1dep"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_u17db"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a07tw"]
 shader = ExtResource("1_do3lu")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash = false
+shader_parameter/flash = null
+shader_parameter/base_color = Color(0.2, 0.235294, 0.341176, 1)
+shader_parameter/outline_color = Color(0.5751, 0.719955, 0.81, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_komhc"]
 radius = 32.0
@@ -23,13 +25,12 @@ radius = 24.0
 radius = 48.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-material = SubResource("ShaderMaterial_u17db")
+material = SubResource("ShaderMaterial_a07tw")
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_7jtvj")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.231373, 0.364706, 0.788235, 1)
 use_parent_material = true
 rotation = 1.5708
 scale = Vector2(4, 4)
