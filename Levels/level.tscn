@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://xgt1tqnsiykx"]
+[gd_scene load_steps=8 format=3 uid="uid://xgt1tqnsiykx"]
 
 [ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://Player/player.tscn" id="1_0btdn"]
 [ext_resource type="PackedScene" uid="uid://d2g10tiyn2p0e" path="res://Enemy/enemy.tscn" id="2_viwa2"]
-[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://Common/icon.svg" id="3_k4ir7"]
 [ext_resource type="PackedScene" uid="uid://dgumhpuo0rwgx" path="res://Common/bg.tscn" id="4_dj5ye"]
 [ext_resource type="PackedScene" uid="uid://bvr4lirw6ffs5" path="res://Common/ui.tscn" id="5_a1jat"]
 [ext_resource type="PackedScene" uid="uid://dsfsmh8ap7i6q" path="res://Common/level_up.tscn" id="6_siudl"]
@@ -15,7 +14,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-1270, -869, 1724, -881
 [sub_resource type="Environment" id="Environment_q401w"]
 background_mode = 3
 glow_enabled = true
-glow_bloom = 0.15
+glow_bloom = 0.2
 glow_hdr_threshold = 0.75
 
 [node name="Level" type="Node2D"]
@@ -26,10 +25,6 @@ glow_hdr_threshold = 0.75
 
 [node name="Enemy" parent="." instance=ExtResource("2_viwa2")]
 position = Vector2(427, 103)
-
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(126, 2)
-texture = ExtResource("3_k4ir7")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 visible = false

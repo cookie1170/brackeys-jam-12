@@ -9,6 +9,7 @@ class_name Player
 @onready var i_frames : Timer = $iFrameTimer
 @onready var dash_hitbox : CollisionShape2D = $DashHitbox/CollisionShape2D
 @onready var hurt_particles : GPUParticles2D = $HurtParticles
+@onready var dash_particles : GPUParticles2D = $DashParticles
 @onready var shoot_point : Marker2D = $ShootPoint
 
 var direction : Vector2
@@ -55,6 +56,7 @@ func dash():
 	dash_cd.start()
 	dash_hitbox.get_parent().damage = dash_damage
 	dash_timer.start()
+	dash_particles.emitting = true
 	i_frames.start(0.3)
 
 
@@ -74,7 +76,7 @@ func get_hit(damage, pos, kb_amt):
 	hurt_particles.restart()
 	health -= damage
 	velocity = (Vector2.LEFT.rotated(get_angle_to(pos) + rotation).normalized()) * kb_amt
-	slowdown(0.025, 0.25)
+	slowdown(0.025, 0.35)
 	i_frames.start(1)
 	flash_white(0.3)
 	if health <= 0:

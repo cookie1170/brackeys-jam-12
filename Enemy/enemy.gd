@@ -11,6 +11,7 @@ class_name Enemy
 @onready var nav_updater : Timer = $NavUpdater
 @onready var stun_timer : Timer = $StunTimer
 @onready var i_frames : Timer = $iFrameTimer
+@onready var sprite : Sprite2D = $Sprite
 @onready var player : Player = get_tree().get_first_node_in_group('Player')
 
 @onready var accel : float = speed / accel_time
@@ -61,4 +62,10 @@ func knockback(delay, amt, pos):
 
 
 func die():
+	sprite.hide()
+	hurt_particles.amount = 100
+	hurt_particles.explosiveness = 0.8
+	hurt_particles.emitting = true
+	stun_timer.start(0.5)
+	await stun_timer.timeout
 	queue_free()

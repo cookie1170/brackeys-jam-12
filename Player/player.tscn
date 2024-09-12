@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d36lt20s0l13v"]
+[gd_scene load_steps=18 format=3 uid="uid://d36lt20s0l13v"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_7jtvj"]
 [ext_resource type="Shader" path="res://Common/flash.gdshader" id="1_do3lu"]
@@ -7,16 +7,40 @@
 [ext_resource type="Texture2D" uid="uid://xyh1g88mooit" path="res://Sprites/circle-16x16.png" id="3_qv6u0"]
 [ext_resource type="Material" uid="uid://d2jto34cs63k0" path="res://Common/Hurt Particles.tres" id="4_2dpny"]
 [ext_resource type="Script" path="res://Player/player_hitbox.gd" id="4_n1dep"]
+[ext_resource type="Script" path="res://Player/dash_particles.gd" id="5_7xinw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a07tw"]
 shader = ExtResource("1_do3lu")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash = null
-shader_parameter/base_color = Color(0.2, 0.235294, 0.341176, 1)
+shader_parameter/base_color = Color(0.576471, 0.721569, 0.811765, 1)
 shader_parameter/outline_color = Color(0.5751, 0.719955, 0.81, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_komhc"]
 radius = 32.0
+
+[sub_resource type="Curve" id="Curve_jpxxl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.401316, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1p4y4"]
+curve = SubResource("Curve_jpxxl")
+
+[sub_resource type="Curve" id="Curve_u0nc8"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.151316, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.032967), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_mi5r3"]
+curve = SubResource("Curve_u0nc8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stvmj"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 31.91
+initial_velocity_max = 85.66
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_mi5r3")
+alpha_curve = SubResource("CurveTexture_1p4y4")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8ltd1"]
 radius = 24.0
@@ -29,6 +53,7 @@ material = SubResource("ShaderMaterial_a07tw")
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_7jtvj")
+metadata/_edit_group_ = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
 use_parent_material = true
@@ -40,6 +65,17 @@ texture = ExtResource("3_27bfe")
 z_index = 1
 shape = SubResource("CircleShape2D_komhc")
 metadata/_edit_lock_ = true
+
+[node name="DashParticles" type="GPUParticles2D" parent="."]
+top_level = true
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_stvmj")
+texture = ExtResource("3_qv6u0")
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.1
+script = ExtResource("5_7xinw")
 
 [node name="HurtParticles" type="GPUParticles2D" parent="."]
 emitting = false
