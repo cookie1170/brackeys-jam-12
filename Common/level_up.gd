@@ -7,11 +7,6 @@ extends CanvasLayer
 @onready var animation_player = $AnimationPlayer
 
 
-func _process(_delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		toggle()
-
-
 func toggle():
 	if speed_panel.modulate == Color.html('ffffff00')\
 	 and damage_panel.modulate == Color.html('ffffff00')\

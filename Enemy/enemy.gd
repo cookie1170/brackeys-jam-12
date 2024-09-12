@@ -62,6 +62,8 @@ func knockback(delay, amt, pos):
 
 
 func die():
+	Signals.enemy_killed.emit()
+	$Hurtbox/CollisionShape2D.disabled = true
 	sprite.hide()
 	hurt_particles.amount = 100
 	hurt_particles.explosiveness = 0.8

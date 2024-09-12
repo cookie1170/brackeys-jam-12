@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://Player/player_hitbox.gd" id="3_ova6i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qef68"]
-size = Vector2(12, 10)
+size = Vector2(18, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvfjk"]
-size = Vector2(18, 16)
+size = Vector2(26, 24)
 
 [node name="BulletPlayer" type="RigidBody2D"]
 collision_layer = 0
@@ -17,9 +17,8 @@ gravity_scale = 0.0
 script = ExtResource("1_oiyt6")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.231373, 0.364706, 0.788235, 1)
+modulate = Color(0.576471, 0.721569, 0.811765, 1)
 rotation = 1.5708
-scale = Vector2(0.75, 0.75)
 texture = ExtResource("2_v407j")
 
 [node name="CollisionBox" type="CollisionShape2D" parent="."]

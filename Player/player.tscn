@@ -12,7 +12,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a07tw"]
 shader = ExtResource("1_do3lu")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash = null
+shader_parameter/flash = false
 shader_parameter/base_color = Color(0.576471, 0.721569, 0.811765, 1)
 shader_parameter/outline_color = Color(0.5751, 0.719955, 0.81, 1)
 

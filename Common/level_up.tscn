@@ -198,6 +198,7 @@ texture_focused = ExtResource("4_0yd6t")
 ignore_texture_size = true
 stretch_mode = 4
 script = ExtResource("3_7namg")
+stat_amount = 10
 
 [node name="DamageLabel" type="Label" parent="HBoxContainer/DamagePanel/DamageButton"]
 layout_mode = 1

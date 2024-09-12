@@ -12,7 +12,10 @@ class_name Player
 @onready var dash_particles : GPUParticles2D = $DashParticles
 @onready var shoot_point : Marker2D = $ShootPoint
 
+# variables
 var direction : Vector2
+var xp : int = 0
+var required_xp : int = 50
 var shoot_damage : int = 20
 var attack_speed : float = 0.35
 var dash_damage : int = 40
@@ -27,8 +30,15 @@ var health_items : Array = []
 var move_speed_items : Array = []
 
 
-func _physics_process(delta):
+func _ready():
+	Signals.enemy_killed.connect(_on_enemy_killed)
+
+
+func _process(_delta):
 	look_at(get_global_mouse_position())
+
+
+func _physics_process(delta):
 	# movement
 	direction = Vector2(Input.get_axis('left', 'right'), Input.get_axis('up', 'down'))
 	velocity = velocity.move_toward(direction.normalized() * move_speed, accel * delta)
@@ -41,12 +51,17 @@ func _physics_process(delta):
 		dash()
 
 	dash_hitbox.disabled = dash_timer.is_stopped()
-
 	# shooting
 	if Input.is_action_just_pressed('attack') and shoot_cd.is_stopped():
 		shoot()
 
 	shoot_cd.wait_time = attack_speed
+	if Input.is_action_just_pressed('ui_accept'):
+		xp += 10
+		print(xp)
+	# levelling up duh
+	if xp >= required_xp:
+		level_up()
 
 	move_and_slide()
 
@@ -61,6 +76,7 @@ func dash():
 
 
 func shoot():
+	# instantiates the bullet scene
 	var bullet = bullet_scene.instantiate()
 	bullet.rotation = rotation
 	bullet.damage = shoot_damage
@@ -102,19 +118,32 @@ func die():
 
 
 func update_stats():
+	# reset stats
 	shoot_damage = 20
 	dash_damage = 40
 	health = 100
 	move_speed = 360
 	attack_speed = 0.35
 
+	# adds stats for each item
 	for i in len(damage_items):
 		shoot_damage += damage_items[i]
 		dash_damage += damage_items[i] * 1.5
-	for i in len(move_speed_items):
-		move_speed += move_speed_items[i]
+	for i in len(move_speed_items):	
+		move_speed += move_speed_items[i] * 2
 		if attack_speed > 0.1: attack_speed -= move_speed_items[i] * 0.00125
 	for i in len(health_items):
 		health += health_items[i]
 
 	accel = move_speed / accel_time
+
+
+func _on_enemy_killed():
+	xp += 10
+	print(xp)
+
+
+func level_up():
+	required_xp *= 1.1
+	xp = 0
+	LevelUp.toggle()

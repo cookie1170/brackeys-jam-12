@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://xgt1tqnsiykx"]
+[gd_scene load_steps=7 format=3 uid="uid://xgt1tqnsiykx"]
 
 [ext_resource type="PackedScene" uid="uid://d36lt20s0l13v" path="res://Player/player.tscn" id="1_0btdn"]
 [ext_resource type="PackedScene" uid="uid://d2g10tiyn2p0e" path="res://Enemy/enemy.tscn" id="2_viwa2"]
-[ext_resource type="PackedScene" uid="uid://dgumhpuo0rwgx" path="res://Common/bg.tscn" id="4_dj5ye"]
-[ext_resource type="PackedScene" uid="uid://bvr4lirw6ffs5" path="res://Common/ui.tscn" id="5_a1jat"]
-[ext_resource type="PackedScene" uid="uid://dsfsmh8ap7i6q" path="res://Common/level_up.tscn" id="6_siudl"]
+[ext_resource type="Texture2D" uid="uid://c1miq87ob6x1w" path="res://Common/icon.svg" id="3_k4ir7"]
+[ext_resource type="Script" path="res://Levels/spawner_temp.gd" id="4_jhqxo"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_n3njp"]
 vertices = PackedVector2Array(1670.24, 782.406, -1357.4, 915.523, -1260.52, -859.031, 1713.72, -870.953)
@@ -30,11 +29,16 @@ position = Vector2(427, 103)
 visible = false
 navigation_polygon = SubResource("NavigationPolygon_n3njp")
 
-[node name="CanvasLayerBG" parent="." instance=ExtResource("4_dj5ye")]
-
-[node name="CanvasLayerUI" parent="." instance=ExtResource("5_a1jat")]
-
-[node name="LevelUpUI" parent="." instance=ExtResource("6_siudl")]
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_q401w")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(160, -46)
+texture = ExtResource("3_k4ir7")
+script = ExtResource("4_jhqxo")
+
+[node name="Timer" type="Timer" parent="Icon"]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Icon/Timer" to="Icon" method="_on_timer_timeout"]
